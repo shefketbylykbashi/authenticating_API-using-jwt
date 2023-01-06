@@ -33,15 +33,20 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return 'logged in currently'
+        return render_template('dashboard.html')
     
 @app.route('/public')
 def public():
     return 'For Public'
 
-expiration_time = datetime.utcnow() + timedelta(hours=1)
 
-  
+@app.route('/auth')
+@token_required
+def auth():
+    return 'JWT is verified!'
+
+
+expiration_time = datetime.utcnow() + timedelta(hours=1)
 
 @app.route('/login', methods=['GET','POST'])
 #qeky funksion thirret saher tbahet qekjo kerkesa
@@ -58,7 +63,7 @@ def login():
             app.config['SECRET_KEY'])
         return jsonify({'token': token})
     else:
-         pass
+        return make_response('Unable to verify', 403, {'WWW-Authenticate': 'Basic realm: "Authentication Failed "'})
         
         
 
