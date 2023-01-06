@@ -43,6 +43,11 @@ expiration_time = datetime.utcnow() + timedelta(hours=1)
   
 
 @app.route('/login', methods=['GET','POST'])
+#qeky funksion thirret saher tbahet qekjo kerkesa
+def login():
+    if request.form['username'] and request.form['password'] == '123456':
+        session['logged_in'] = True
+        
 
 if __name__ == "__main__":
     app.run(debug=True)
