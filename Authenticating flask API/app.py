@@ -27,12 +27,19 @@ def token_required(func):
         return func(*args, **kwargs)
     return decorated
 
-    @app.route('/')
+@app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
         return 'logged in currently'
+    
+@app.route('/public')
+def public():
+    return 'For Public'
+    
+
+@app.route('/login', methods=['GET','POST'])
 
 if __name__ == "__main__":
     app.run(debug=True)
