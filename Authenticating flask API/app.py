@@ -48,6 +48,18 @@ def login():
     if request.form['username'] and request.form['password'] == '123456':
         session['logged_in'] = True
         
+        token = jwt.encode({
+            'user': request.form['username'],
+     
+            'exp': expiration_time
+            
+        },
+            app.config['SECRET_KEY'])
+        return jsonify({'token': token})
+    else:
+         pass
+        "'})
+        
 
 if __name__ == "__main__":
     app.run(debug=True)
