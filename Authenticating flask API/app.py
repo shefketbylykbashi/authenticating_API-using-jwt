@@ -51,6 +51,20 @@ def public():
 def auth():
     return 'JWT is verified!'
 
+@app.route('/protected', methods=['GET'])
+def protected():
+    # Require authentication
+    auth_header = request.headers.get('Authorization')
+    if auth_header:
+        try:
+            
+            payload = jwt.decode(auth_header, app.config['SECRET_KEY'], algorithms='HS256')
+            return render_template('dashboard.html')
+        except jwt.exceptions.InvalidTokenError:
+            return 'Invalid JWT', 401
+    else:
+        return 'Authentication required', 401
+
 
 @app.route('/login', methods=['GET','POST'])
 #qeky funksion thirret saher tbahet qekjo kerkesa
