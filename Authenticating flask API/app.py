@@ -69,7 +69,12 @@ def login():
     else:
         return make_response('Unable to verify', 403, {'WWW-Authenticate': 'Basic realm: "Authentication Failed "'})
         
-        
+@app.route('/login_token', methods=['GET','POST'])
+@token_required
+def login_token():
+    session['logged_in'] = True
+
+    return render_template('dashboard.html')       
 
 if __name__ == "__main__":
     app.run(debug=True)
