@@ -74,7 +74,12 @@ def login():
 def login_token():
     session['logged_in'] = True
 
-    return render_template('dashboard.html')       
+    return render_template('dashboard.html')   
+
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+
+    return render_template('login.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
