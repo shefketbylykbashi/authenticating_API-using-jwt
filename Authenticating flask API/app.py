@@ -81,5 +81,12 @@ def logout():
 
     return render_template('login.html')
 
+@app.route('/clear', methods=['GET','POST'])
+def clear():
+    
+    session.clear()
+     
+    return render_template('login.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
