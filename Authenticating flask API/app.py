@@ -28,12 +28,18 @@ def token_required(func):
         return func(*args, **kwargs)
     return decorated
 
+expiration_time = datetime.utcnow() + timedelta(hours=1)
 @app.route('/')
 def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return render_template('dashboard.html')
+         if expiration_time < datetime.utcnow():
+            session.clear()
+            return render_template('login.html')
+         else:
+            return render_template('dashboard.html')
+
     
 @app.route('/public')
 def public():
@@ -45,8 +51,6 @@ def public():
 def auth():
     return 'JWT is verified!'
 
-
-expiration_time = datetime.utcnow() + timedelta(hours=1)
 
 @app.route('/login', methods=['GET','POST'])
 #qeky funksion thirret saher tbahet qekjo kerkesa
