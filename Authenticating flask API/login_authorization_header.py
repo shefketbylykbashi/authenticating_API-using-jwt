@@ -33,5 +33,19 @@ def protected_token(func):
         return func(*args, **kwargs)
     return decorated
 
+@app.route('/',methods=['GET','POST'])
+def home():
+    password = request.headers.get('Password')
+    username = request.headers.get('username')
+    if username and password == '1234567':
+        return render_template('dashboard.html')
+    else:
+        return render_template('login.html')
+        
+   
+@app.route('/public')
+def public():
+    return 'For Public'
+    
 if __name__ == "__main__":
     app.run(debug=True)
