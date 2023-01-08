@@ -58,5 +58,12 @@ def login_token():
 def logout():
     return render_template('login.html')
 
+@app.route('/auth')
+@protected_token
+def auth():
+    return 'JWT is verified!'
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
