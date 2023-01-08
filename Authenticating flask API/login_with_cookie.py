@@ -102,5 +102,17 @@ def clear():
      
     return render_template('login.html')
 
+@app.route('/refresh', methods=['GET','POST'])
+@token_required
+def refresh():
+    print(uuu)
+    token = jwt.encode({
+            'user': uuu,
+            'exp': expiration_time
+                
+         },
+            app.config['SECRET_KEY'])
+    return jsonify({'token': token})
+
 if __name__ == "__main__":
     app.run(debug=True)
