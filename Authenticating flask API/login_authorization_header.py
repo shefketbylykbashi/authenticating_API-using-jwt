@@ -35,9 +35,13 @@ def protected_token(func):
 
 @app.route('/',methods=['GET','POST'])
 def home():
-    password = request.headers.get('Password')
-    username = request.headers.get('username')
-    if username and password == '1234567':
+    try:
+        request_body = request.get_json()
+        username = request_body['username']
+        password = request_body['password']
+    except:
+        return render_template('login.html')
+    if username and password == '12345678910':
         return render_template('dashboard.html')
     else:
         return render_template('login.html')
@@ -62,6 +66,25 @@ def logout():
 @protected_token
 def auth():
     return 'JWT is verified!'
+
+@app.route('/get_token', methods=['GET','POST']) 
+def login_auth():
+    request_body = request.get_json()
+    username = request_body['username']
+    password = request_body['password']
+    if username and password == '12345678910':
+
+        token = jwt.encode({
+            'user': username ,
+            'exp': expiration_time
+                
+         },
+            app.config['SECRET_KEY'])
+
+        return jsonify({'token': token})
+    else:
+        return make_response('Unable to verify', 403, {'WWW-Authenticate': 'Basic realm: "Authentication Failed "'})
+
 
 @app.route('/refresh', methods=['GET','POST'])
 @protected_token
