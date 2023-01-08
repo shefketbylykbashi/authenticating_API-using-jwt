@@ -63,7 +63,18 @@ def logout():
 def auth():
     return 'JWT is verified!'
 
+@app.route('/refresh', methods=['GET','POST'])
+@protected_token
+def refresh():
+    auth_header = request.headers.get('Authorization')
 
+    token = jwt.encode({
+            'user': uuu,
+            'exp': expiration_time
+                
+         },
+            app.config['SECRET_KEY'])
+    return jsonify({'token': token})
 
 if __name__ == "__main__":
     app.run(debug=True)
