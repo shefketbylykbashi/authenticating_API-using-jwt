@@ -46,6 +46,17 @@ def home():
 @app.route('/public')
 def public():
     return 'For Public'
-    
+
+@app.route('/login', methods=['GET','POST']) 
+@protected_token
+def login_token():
+
+    return render_template('dashboard.html')
+
+@app.route('/logout', methods=['GET','POST'])
+@protected_token
+def logout():
+    return render_template('login.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
